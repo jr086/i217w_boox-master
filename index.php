@@ -1,6 +1,18 @@
 <?php
   header('Content-Type: text/html; charset=utf-8');
   require('config.php');
+
+    if (isset($_GET['deleteID'])){
+ 	    $deleteID = $_GET['deleteID'];
+ 	    $sql = "DELETE FROM `user` WHERE `user`.`id` = " . $deleteID;
+ 	    mysqli_query($link, $sql);
+   }
+
+   if (isset($_GET['deleteBookid'])){
+      $deleteID = $_GET['deleteBookid'];
+      $sql = "DELETE FROM `books` WHERE `books`.`book_id` = " . $deleteID;
+      mysqli_query($link, $sql);
+  }
 ?>
 <!doctype html>
 <html lang="de">
@@ -16,6 +28,8 @@
 	<table class="table-striped table">
 		<th>Name</th>
 		<th>E-Mail</th>
+    <th>Delete</th>
+		<th>Edit</th>
 		<?php
 			$stmt = "SELECT * FROM `user`";
 			$result = $link->query($stmt);
@@ -25,6 +39,8 @@
 					echo "<tr>\n";
 					echo "<td>" . $row[1] . "</td>\n";
 					echo "<td>" . $row[3] . "</td>\n";
+          echo "<td><a href='index.php?deleteID=" . $row[0]. "'>delete</a></td>\n";
+					echo "<td><a href='edit_user.php?ID=" . $row[0]. "'>edit</a></td>\n";
 					echo "</tr>";
 				}
 			}
@@ -43,6 +59,8 @@
   		<th>Title</th>
       <th>ISBN</th>
       <th>Price</th>
+      <th>Delete</th>
+      <th>Edit</th>
   		<?php
   			$stmt = "SELECT * FROM `books`";
   			$result = $link->query($stmt);
@@ -54,6 +72,8 @@
   					echo "<td>" . $row[1] . "</td>\n";
             echo "<td>" . $row[2] . "</td>\n";
             echo "<td>" . $row[3] . "</td>\n";
+            echo "<td><a href='index.php?deleteBookid=" . $row[4]. "'>delete</a></td>\n";
+            echo "<td><a href='edit_book.php?ID=" . $row[4]. "'>edit</a></td>\n";
   					echo "</tr>";
   				}
   			}
